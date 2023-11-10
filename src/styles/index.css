@@ -27,3 +27,10 @@ input {
     border:none;
     width: 100%;
 }
+.trash-icon {
+    display: none; 
+  }
+  
+  li:hover .trash-icon {
+    display: inline-block;
+  }

@@ -28,7 +28,7 @@ export const Todolist = () => {
             {item}
             <div className="float-end">
             <i
-              className="fas fa-trash-alt"
+              className="fas fa-trash-alt trash-icon"
               onClick={() =>
                 setTodos(
                   todos.filter(
