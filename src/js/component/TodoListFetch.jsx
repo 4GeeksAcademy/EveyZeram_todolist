@@ -12,7 +12,7 @@ export const TodoListFetch = () => {
 
 
     // Tenemos que crear una lista con FETCH+API+POSTMAN
-    // Usamos GET, POST, PUT, DELETE
+    // Usamos GET, POST, PUT, DELETE (misma estructura, mirar las diferencias en los parámetros)
 
     // Empezamos por el POST para crear
     const createTodo = async () => {
@@ -33,7 +33,7 @@ export const TodoListFetch = () => {
         }
     }
 
-    // Seguimos con el GET para poder conseguir los elementos
+    // Seguimos con el GET para poder conseguir los elementos (ver el resultado en console log)
     const getTodos = async () => {
         const url = url_base + '/user/' + user;
         const options = {
@@ -48,7 +48,7 @@ export const TodoListFetch = () => {
             console.log('Error: ', response.status, response.statusText)
         }
     }
-    // PUT para modificar
+    // PUT para modificar (ver el resultado en console log) > Duda.
     const updateTodos = async (newTask) => {
         const url = url_base + '/user/' + user;
         const options = {
@@ -67,7 +67,7 @@ export const TodoListFetch = () => {
         }
     }
 
-    // Delete para borrar el usuario
+    // Delete para borrar el usuario (ver el resultado en console log)
     const deleteTodos = async () => {
         const url = url_base + '/user/' + user;
         const options = {
@@ -84,7 +84,7 @@ export const TodoListFetch = () => {
 
     }
 
-    // Añadimos una función para poder borrar elementos con el icono de TRASH
+    // Añadimos una función para poder borrar elementos con el icono de TRASH. Duda (hover)
     const deleteTask = (item) => {
         setList(list.filter((element, id) => {
             return item !== element;
@@ -123,7 +123,7 @@ export const TodoListFetch = () => {
             <h2>Here we go...</h2>
             <div className="list">
                 <ul className="list-group">
-
+                                    {/* Si hay tareas sin hacer, entonces muestras "pendientes" y si no "hechas**" */}
                     {list.map((item, id) => {
                         return <li key={id} className="list-group-item d-flex justify-content-between hidden-icon">
                             {item.label} - {item.done ? 'done' : 'not done my friend'}
