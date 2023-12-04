@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //Importamos arriba
 
@@ -10,6 +10,10 @@ export const TodoListFetch = () => {
     const [list, setList] = useState([]);
     const url_base = 'https://playground.4geeks.com/apis/fake/todos';
 
+    useEffect(() => {
+        // Al cargar el componente, obten las tareas desde la API
+        getTodos();
+    }, []);
 
     // Tenemos que crear una lista con FETCH+API+POSTMAN
     // Usamos GET, POST, PUT, DELETE (misma estructura, mirar las diferencias en los parámetros)
@@ -31,7 +35,7 @@ export const TodoListFetch = () => {
         } else {
             console.log('Error: ', response.status, response.statusText)
         }
-    }
+    };
 
     // Seguimos con el GET para poder conseguir los elementos (ver el resultado en console log)
     const getTodos = async () => {
@@ -47,7 +51,7 @@ export const TodoListFetch = () => {
         } else {
             console.log('Error: ', response.status, response.statusText)
         }
-    }
+    };
     // PUT para modificar (ver el resultado en console log) > Duda.
     const updateTodos = async (newTask) => {
         const url = url_base + '/user/' + user;
@@ -65,7 +69,7 @@ export const TodoListFetch = () => {
         } else {
             console.log('Error: ', response.status, response.statusText)
         }
-    }
+    };
 
     // Delete para borrar el usuario (ver el resultado en console log)
     const deleteTodos = async () => {
@@ -82,19 +86,41 @@ export const TodoListFetch = () => {
             console.log('Error: ', response.status, response.statusText)
         }
 
-    }
-
-    // Añadimos una función para poder borrar elementos con el icono de TRASH. Duda (hover)
-    const deleteTask = (item) => {
-        setList(list.filter((element, id) => {
-            return item !== element;
-        }))
     };
-    const addTask = (event) => {
+
+    // Añadimos una función para poder borrar elementos con el icono de TRASH. Duda (hover) // VER
+    // const deleteTask = async (item) => {
+    //         setList(list.filter((element, id) => {
+    //         return item !== element;
+    //     }))
+    // };
+
+    const deleteTask = async (item) => {
+        const url = url_base + user + item.label;
+        console.log('URL de eliminación:', url); // en el console log la página da error 404
+        const options = {
+            method: 'DELETE'
+        };
+
+        const response = await fetch(url, options);
+
+        if (response.ok) {
+            // Si la eliminación en la API es ok, actualizar la lista
+            const updatedList = list.filter((element) => element.label !== item.label);
+            setList(updatedList);
+            console.log('Tarea eliminada correctamente desde la API');
+        } else {
+            console.error('Error: ', response.status, response.statusText);
+        }
+    };
+
+
+    const addTask = async (event) => {
         event.preventDefault();
         if (task.trim() === "") {
-            return
-        };
+            return;
+        }
+
         const newTask = { label: task, done: false }
         setList([...list, newTask]);
         updateTodos(newTask)
@@ -123,7 +149,7 @@ export const TodoListFetch = () => {
             <h2>Here we go...</h2>
             <div className="list">
                 <ul className="list-group">
-                                    {/* Si hay tareas sin hacer, entonces muestras "pendientes" y si no "hechas**" */}
+                    {/* Si hay tareas sin hacer, entonces muestras "pendientes" y si no "hechas**" */}
                     {list.map((item, id) => {
                         return <li key={id} className="list-group-item d-flex justify-content-between hidden-icon">
                             {item.label} - {item.done ? 'done' : 'not done my friend'}
@@ -143,4 +169,4 @@ export const TodoListFetch = () => {
     );
 };
 
-// agregar el contenido finla del input en el estado list 
+// agregar el contenido final del input en el estado list 

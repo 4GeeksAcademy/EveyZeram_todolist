@@ -21,7 +21,7 @@ export const JPHUsers = () => {
         <div className="container mt-3">
             <h1>Users</h1>
             <div>
-                {users ? users.map((item) => {
+                {user ? user.map((item) => {
                     return (
                         <div className="card mp-2">
                             <h2 className="card-title">{item.id} {item.name}</h2>
