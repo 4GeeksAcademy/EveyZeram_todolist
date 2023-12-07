@@ -49,6 +49,11 @@ export const TodoListFetch = () => {
             console.log(data)
             setList(data)
         } else {
+            if (response.status === 404) {
+                console.log('No hay agenda');
+                 } else {
+                    console.log('Error: ', response.status, response.statusText);
+                 }
             console.log('Error: ', response.status, response.statusText)
         }
     };
@@ -96,7 +101,7 @@ export const TodoListFetch = () => {
     // };
 
     const deleteTask = async (item) => {
-        const url = url_base + user + item.label;
+        const url = url_base + '/' + user + '/' + item.id;
         console.log('URL de eliminación:', url); // en el console log la página da error 404
         const options = {
             method: 'DELETE'
@@ -106,7 +111,7 @@ export const TodoListFetch = () => {
 
         if (response.ok) {
             // Si la eliminación en la API es ok, actualizar la lista
-            const updatedList = list.filter((element) => element.label !== item.label);
+            const updatedList = list.filter((element) => element.id !== item.id);
             setList(updatedList);
             console.log('Tarea eliminada correctamente desde la API');
         } else {
